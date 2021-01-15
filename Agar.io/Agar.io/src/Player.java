@@ -2,7 +2,7 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Rectangle;
 
-public class Enemy {
+public class Player {
 	
 	private int x, y;
 	private int vx, vy;
@@ -12,15 +12,18 @@ public class Enemy {
 	private int mass;
 	private int area;
 	private Color color;
+	private double mX, mY;
+	private double pX, pY;
+	
 	
 	Rectangle world = new Rectangle(-500, -500, 2000, 2000);
 	
-	public Enemy() {
+	public Player() {
 		
-		rad =  (int) (Math.random()*(60-10+1)+10);
+		rad =  15;
 		area = (int) ((Math.PI)*(Math.pow(rad, 2.0))); 
 		
-		vmag = (int) (1 + 100/rad);
+		vmag = 1 + 100/rad;
 		theta = (int) (Math.random()*(360-0+1)+0);
 		
 		vx = (int) (vmag*(Math.cos(theta)));
@@ -31,8 +34,8 @@ public class Enemy {
 		
 		
 		
-		x = (int) (Math.random()*801);
-		y = (int) (Math.random()*601);
+		x = 385;
+		y = 285;
 		
 		int red = (int)(Math.random()*256);
 		int green = (int)(Math.random()*256);
@@ -40,8 +43,8 @@ public class Enemy {
 		color = new Color(red,green,blue);
 		
 		
-		
-		
+		vx = 0;
+		vy = 0;
 		
 	}
 		
@@ -101,17 +104,10 @@ public class Enemy {
 		return rad;
 	}
 	
-	public void setRad(int rad) {
-		this.rad= rad;
+	public int getVmag() {
+		return vmag;
 	}
 	
-	public void setX(int x) {
-		this.x = x;
-	}
-	
-	public void setY(int y) {
-		this.y = y;
-	}
 	
 	public int getArea() {
 		return area;
@@ -121,4 +117,7 @@ public class Enemy {
 		this.area = area;
 		
 	}
+	
+	
+
 }

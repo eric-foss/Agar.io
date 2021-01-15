@@ -2,10 +2,10 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Rectangle;
 
-public class Enemy {
+public class Food {
 	
 	private int x, y;
-	private int vx, vy;
+	private double vx, vy;
 	private int vmag;
 	private int theta;
 	private int rad;
@@ -15,12 +15,12 @@ public class Enemy {
 	
 	Rectangle world = new Rectangle(-500, -500, 2000, 2000);
 	
-	public Enemy() {
+	public Food() {
 		
-		rad =  (int) (Math.random()*(60-10+1)+10);
-		area = (int) ((Math.PI)*(Math.pow(rad, 2.0))); 
+		rad =  10; 
+		area = (int) ((Math.PI)*(Math.pow(rad, 2.0)));
 		
-		vmag = (int) (1 + 100/rad);
+		vmag = 0;
 		theta = (int) (Math.random()*(360-0+1)+0);
 		
 		vx = (int) (vmag*(Math.cos(theta)));
@@ -36,7 +36,7 @@ public class Enemy {
 		
 		int red = (int)(Math.random()*256);
 		int green = (int)(Math.random()*256);
-		int blue =  (int)(Math.random()*178);
+		int blue =  (int)(Math.random()*256);
 		color = new Color(red,green,blue);
 		
 		
@@ -74,18 +74,16 @@ public class Enemy {
 	}
 	
 	public void paint(Graphics g) {
-		update();
 		g.setColor(color);
 		g.fillOval(x,  y,  rad*2,  rad*2);
+		//System.out.println("Hello");
+		
 	}
 	
 	
 	
 	
-	public void update() {
-		x += vx;
-		y += vy;
-	}
+	
 	
 	
 	
@@ -101,8 +99,13 @@ public class Enemy {
 		return rad;
 	}
 	
-	public void setRad(int rad) {
-		this.rad= rad;
+	
+	public int getArea() {
+		return area;
+	}
+	
+	public void setArea(int area) {
+		this.area = area;
 	}
 	
 	public void setX(int x) {
@@ -113,12 +116,12 @@ public class Enemy {
 		this.y = y;
 	}
 	
-	public int getArea() {
-		return area;
+	public void setVx(double vx) {
+		this.vx = vx;
 	}
 	
-	public void setArea(int area) {
-		this.area = area;
-		
+	public void setVy(double vy) {
+		this.vy = vy;
 	}
+
 }
