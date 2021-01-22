@@ -47,6 +47,11 @@ public class Player {
 		vy = 0;
 		
 	}
+	
+	public void newPos() {
+		x = 400 - rad;
+		y = 300 - rad;
+	}
 		
 
 	public void checkBounds() {
@@ -116,6 +121,12 @@ public class Player {
 	public void setArea(int area) {
 		this.area = area;
 		
+	}
+	
+	public void setRad(int rad) {
+		this.rad = rad;
+		
+		//System.out.println(rad);
 	}
 	
 	

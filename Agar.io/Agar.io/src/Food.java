@@ -31,8 +31,8 @@ public class Food {
 		
 		
 		
-		x = (int) (Math.random()*801);
-		y = (int) (Math.random()*601);
+		x = (int) (Math.random()*(2501)-500);
+		y = (int) (Math.random()*(2501)-500);
 		
 		int red = (int)(Math.random()*256);
 		int green = (int)(Math.random()*256);
@@ -45,6 +45,36 @@ public class Food {
 		
 	}
 		
+	public Food(int i) {
+		
+		rad =  10; 
+		area = (int) ((Math.PI)*(Math.pow(rad, 2.0)));
+		
+		vmag = 0;
+		theta = (int) (Math.random()*(360-0+1)+0);
+		
+		vx = (int) (vmag*(Math.cos(theta)));
+		vy = (int) (vmag*(Math.sin(theta)));
+		
+		
+		
+		
+		
+		
+		x = (int)((Math.random()>.5)?Math.random()*(-15+500+1)-500:Math.random()*(2000-800+1)+800); //-500-0, 800-2000 
+		y = (int)((Math.random()>.5)?Math.random()*(-15+500+1)-500:Math.random()*(2000-800+1)+800);
+		
+		int red = (int)(Math.random()*256);
+		int green = (int)(Math.random()*256);
+		int blue =  (int)(Math.random()*256);
+		color = new Color(red,green,blue);
+		
+		
+		
+		
+		
+	}
+	
 
 	public void checkBounds() {
 		if (x < -500) {
@@ -80,7 +110,10 @@ public class Food {
 		
 	}
 	
-	
+	public void update() {
+		x += vx;
+		y += vy;
+	}
 	
 	
 	

@@ -31,8 +31,38 @@ public class Enemy {
 		
 		
 		
-		x = (int) (Math.random()*801);
-		y = (int) (Math.random()*601);
+		x = (int) (Math.random()*(2501)-500);
+		y = (int) (Math.random()*(2501)-500);
+		
+		int red = (int)(Math.random()*256);
+		int green = (int)(Math.random()*256);
+		int blue =  (int)(Math.random()*178);
+		color = new Color(red,green,blue);
+		
+		
+		
+		
+		
+	}
+	
+public Enemy(int i) {
+		
+		rad =  (int) (Math.random()*(60-10+1)+10);
+		area = (int) ((Math.PI)*(Math.pow(rad, 2.0))); 
+		
+		vmag = (int) (1 + 100/rad);
+		theta = (int) (Math.random()*(360-0+1)+0);
+		
+		vx = (int) (vmag*(Math.cos(theta)));
+		vy = (int) (vmag*(Math.sin(theta)));
+		
+		
+		
+		
+		
+		
+		x = (int)((Math.random()>.5)?Math.random()*(-15+500+1)-500:Math.random()*(2000-800+1)+800);
+		y = (int)((Math.random()>.5)?Math.random()*(-15+500+1)-500:Math.random()*(2000-800+1)+800);
 		
 		int red = (int)(Math.random()*256);
 		int green = (int)(Math.random()*256);

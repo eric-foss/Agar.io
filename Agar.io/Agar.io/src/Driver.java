@@ -1,3 +1,4 @@
+import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.MouseInfo;
 import java.awt.Rectangle;
@@ -42,8 +43,15 @@ public class Driver extends JPanel implements MouseListener, ActionListener{
 			theta = Math.atan(dX/dY);
 		}
 		
-		vy = Math.sin(theta)*player.getVmag();
-		vx = Math.cos(theta)*player.getVmag();
+		
+		
+		vx = Math.sin(theta)*player.getVmag();
+		vy = Math.cos(theta)*player.getVmag();
+		
+		if (dY > 0) {
+			vx *= -1;
+			vy *= -1;
+		}
 		//System.out.println(dX + "," + dY + ", " + theta);
 		
 		super.paintComponent(g);
@@ -57,6 +65,8 @@ public class Driver extends JPanel implements MouseListener, ActionListener{
 		for(Food e: food) {
 			e.paint(g);
 			//System.out.println("Hello");
+			//e.setVx(vx);
+			//e.setVy(vy);
 			
 		}
 		
@@ -73,6 +83,10 @@ public class Driver extends JPanel implements MouseListener, ActionListener{
 		isColliding();
 		moveAll();
 		
+		g.setColor(new Color(0, 0, 0));
+		//g.drawOval(player.getX(), player.getY(), player.getRad()*2, player.getRad()*2);
+		
+		
 	}
 	
 	public static void main(String[] arg) {
@@ -88,7 +102,7 @@ public class Driver extends JPanel implements MouseListener, ActionListener{
 			enemies.add(new Enemy());
 		}
 		
-		for(int i = 0; i < 50; i++) {
+		for(int i = 0; i < 500; i++) {
 			food.add(new Food());
 		}
 		
@@ -117,28 +131,55 @@ public class Driver extends JPanel implements MouseListener, ActionListener{
 					if (enemies.get(i).getRad() >= enemies.get(o).getRad()) {
 						enemies.get(i).setArea(enemies.get(i).getArea()+enemies.get(o).getArea());
 						newRad(i);
-						enemies.remove(o);
-						temp--;
+						enemies.set(i, new Enemy(0));
+						
 						
 					}
 					
 					else {
 						enemies.get(o).setArea(enemies.get(i).getArea()+enemies.get(o).getArea());
 						newRad(o);
-						enemies.remove(i);
-						temp--;
+						enemies.set(i, new Enemy(0));
+						
 					}
 				}
 				
 			}
 			for(int o = 0; o < temp2; o++) {
-				if ((int) foodDistance(i, o) <= enemies.get(i).getRad() + food.get(o).getRad()) {
+				if ( foodDistance(i, o) <= enemies.get(i).getRad() + food.get(o).getRad()) {
 					enemies.get(i).setArea(enemies.get(i).getArea() + food.get(o).getArea());
-					food.remove(o);
-					temp2--;
+					food.set(i, new Food(0));
+					
 				}
 			}
 			
+	
+			
+		}
+		for (int i = 0; i < temp2; i++) {
+			if ( playerDistanceFood(i) <= food.get(i).getRad() + player.getRad()) {
+				//System.out.println(player.getRad());
+				if (player.getRad() >= food.get(i).getRad()) {
+					player.setArea(player.getArea() + food.get(i).getArea());
+					player.setRad((int) (Math.sqrt(player.getArea() / Math.PI)));
+					food.set(i, new Food(0));
+					player.newPos();
+					
+				}
+			}
+		}
+		
+		for (int i = 0; i < temp; i++) {
+			if ( playerDistanceEnemy(i) <= enemies.get(i).getRad() + player.getRad()) {
+				if (player.getRad() >= enemies.get(i).getRad()) {
+					player.setArea(player.getArea() + enemies.get(i).getArea());
+					player.setRad((int) (Math.sqrt(player.getArea() / Math.PI)));
+					enemies.set(i, new Enemy(0));
+					player.newPos();
+					
+				}
+				
+			}
 		}
 	}
 	
@@ -150,6 +191,18 @@ public class Driver extends JPanel implements MouseListener, ActionListener{
 	public double foodDistance(int i, int o) {
 		return Math.sqrt(Math.pow((enemies.get(i).getX() + enemies.get(i).getRad()) - (food.get(o).getX() + food.get(o).getRad()), 2.0) +
 				Math.pow((enemies.get(i).getY() + enemies.get(i).getRad()) - (food.get(o).getY() + food.get(o).getRad()), 2.0));
+	}
+	
+	public double playerDistanceFood(int i) {
+		return Math.sqrt((Math.pow((player.getX() + player.getRad()) - (food.get(i).getX() + food.get(i).getRad()), 2.0)) + 
+				Math.pow((player.getY() + player.getRad()) - (food.get(i).getY() + food.get(i).getRad()), 2.0));
+				
+	}
+	
+	public double playerDistanceEnemy(int i) {
+		return Math.sqrt((Math.pow((player.getX() + player.getRad()) - (enemies.get(i).getX() + enemies.get(i).getRad()), 2.0)) + 
+				Math.pow((player.getY() + player.getRad()) - (enemies.get(i).getY() + enemies.get(i).getRad()), 2.0));
+				
 	}
 	
 	public void newRad(int i) {
